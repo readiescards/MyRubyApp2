@@ -123,6 +123,8 @@ var app = {
 //'application/xml');
 //                request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
         //oReq.withCreditionals=true;
+//xmlhttp.setRequestHeader "Authorization", "Basic dXNlcm5hbWU6cGFzc3dvcmQ="
+
         oReq.send();
     },
 
