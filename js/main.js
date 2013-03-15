@@ -8,6 +8,15 @@ function reqListener() {
     console.log(this.responseText);
 };
 
+function reqTaskListener() {
+    var $servertime = $('.servertime');
+
+    var newHTML;
+    newHTML = "<p>Tasks found ";
+    newHTML += "</p>";
+    $servertime.html(newHTML);
+};
+
 function processServerTime(serverTimeXML) {
     var $servertime = $('.servertime');
 
@@ -107,7 +116,7 @@ var app = {
         oReq.addEventListener("abort", transferCanceled, false);
         oReq.addEventListener("loadend", loadEnd, false);
 
-        oReq.onload = reqListener;
+        oReq.onload = reqTaskListener;
         oReq.open("get", url, true, "paul", "paul");
 //            invocation.setRequestHeader('X-PINGARUNER', 'pingpong');
 //            invocation.setRequestHeader('Content-Type',
@@ -118,8 +127,8 @@ var app = {
     },
 
     initialize: function() {
-        window.setTimeout(this.fetchServerTime,1000);
-        window.setTimeout(this.fetchTasks,2000);
+        //window.setTimeout(this.fetchServerTime,1000);
+        window.setTimeout(this.fetchTasks,200);
         //this.fetchServerTime();
     }
 
