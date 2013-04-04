@@ -8,27 +8,15 @@ function reqListener() {
     console.log(this.responseText);
 };
 
-function reqTaskListener() {
-    var $servertime = $('.servertime');
+function reqMeListener() {
+    var $me = $('.servertime');
 
     var newHTML;
-    newHTML = "<p>Tasks found ";
+    newHTML = "<p><h1>me</h1>";
+newHTML+=this.responseText;
     newHTML += "</p>";
     $servertime.html(newHTML);
 };
-
-function processServerTime(serverTimeXML) {
-    var $servertime = $('.servertime');
-
-    var timeXML = $(serverTimeXML);
-    var time = timeXML.find('time').text();
-
-    var newHTML;
-    newHTML = "<p>ServerTime: ";
-    newHTML += time;
-    newHTML += "</p>";
-    $servertime.html(newHTML);
-} ;
 
 function updateProgress(evt) {
   if (evt.lengthComputable) {
@@ -43,7 +31,7 @@ function transferComplete(evt) {
 }
 
 function transferFailed(evt) {
-  alert("An error occurred while transferring the file.");
+  alert("An error occurred during transfer.");
 }
 
 function transferCanceled(evt) {
@@ -64,49 +52,8 @@ var app = {
         }
     },
 
-    fetchServerTimeError: function() {
-        var $servertime=$('.servertime')
-        $servertime.html("error");
-    },
-
-    fetchServerTime: function(){
-        //var $servertime=$('.servertime')
-        //$servertime.html("<h1>fred</h1>");
-        //$servertime.fadeIn(250);
-        //$servertime.animate({right : 100px},250);
-
-        var url='http://192.168.0.8:22002/time.xml';
-        var data;
-        $.get(url,processServerTime).error(this.fetchServerTimeError);
-
-//      $.get(url,
-//          function (data, textStatus, XMLHttpRequest){
-//              alert("status " + textStatus);
-//              alert('data:' + data);
-//              window.data=data;
-//              window.textStatus=textStatus;
-//        window.httpReq = XMLHttpRequest});
-
-
-        var oReq = new XMLHttpRequest();
-        oReq.addEventListener("progress", updateProgress, false);
-        oReq.addEventListener("load", transferComplete, false);
-        oReq.addEventListener("error", transferFailed, false);
-        oReq.addEventListener("abort", transferCanceled, false);
-        oReq.addEventListener("loadend", loadEnd, false);
-
-//req.upload.addEventListener("progress", updateProgress, false);
-//req.upload.addEventListener("load", transferComplete, false);
-//req.upload.addEventListener("error", transferFailed, false);
-//req.upload.addEventListener("abort", transferCanceled, false);
-
-        oReq.onload = reqListener;
-        oReq.open("get", url, true);
-        oReq.send();
-    },
-
-    fetchTasks: function() {
-        var url='http://192.168.0.8:22002/v1/tasks.xml';
+    fetchMe: function() {
+        var url='http://192.168.0.8:22005/v1/me.xml';
         var data;
 
         var oReq = new XMLHttpRequest();
@@ -116,9 +63,8 @@ var app = {
         oReq.addEventListener("abort", transferCanceled, false);
         oReq.addEventListener("loadend", loadEnd, false);
 
-        oReq.onload = reqTaskListener;
-        oReq.open("get", url, true, "paul", "paul");
-//            invocation.setRequestHeader('X-PINGARUNER', 'pingpong');
+        oReq.onload = reqMeListener;
+        oReq.open("get", url, true, "PaulRead", "PaulRead");
 //            invocation.setRequestHeader('Content-Type',
 //'application/xml');
 //                request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
@@ -129,9 +75,7 @@ var app = {
     },
 
     initialize: function() {
-        //window.setTimeout(this.fetchServerTime,1000);
-        window.setTimeout(this.fetchTasks,200);
-        //this.fetchServerTime();
+        window.setTimeout(this.fetchMe,200);
     }
 
 };
