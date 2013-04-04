@@ -15,7 +15,7 @@ function reqMeListener() {
     newHTML = "<p><h1>me</h1>";
 newHTML+=this.responseText;
     newHTML += "</p>";
-    $servertime.html(newHTML);
+    $me.html(newHTML);
 };
 
 function updateProgress(evt) {
@@ -54,7 +54,7 @@ var app = {
 
     fetchMe: function() {
         var url='http://192.168.0.8:22005/v1/me.xml';
-        var data;
+        //var url='http://192.168.0.8:22005/time.xml';
 
         var oReq = new XMLHttpRequest();
         oReq.addEventListener("progress", updateProgress, false);
