@@ -1,3 +1,36 @@
+        function login()
+        {
+        var txt="";
+        try
+        {
+            if(document.getElementById("username").value == "" || document.getElementById("passwd").value == "" )
+            {
+                alert('Fill out both username and password, please...');
+                return false;
+            }
+            var xhr = window.ActiveXObject ? new ActiveXObject("Microsoft.XMLHTTP") : new XMLHttpRequest();
+            xhr.open("get", "http://192.168.0.8:22005/v1/me.xml",false,"PaulRead","PaulRead");
+            xhr.send("");
+            if (xhr.status == 200)
+            {
+                document.getElementById("console").innerHTML = xhr.responseText;
+            }
+            else
+            {
+                alert('Wrong credentials...');
+                document.getElementById("console").innerHTML = xhr.responseText;
+            }
+            return false;
+        }
+        catch(err)
+        {
+          txt="There was an error on this page.\n\n";
+  txt+="Error description: " + err.message + "\n\n";
+  txt+="Click OK to continue.\n\n";
+  alert(txt);
+        }
+        }
+
 function make_base_auth(user, password) {
   var tok = user + ':' + pass;
   var hash = Base64.encode(tok);
@@ -52,9 +85,13 @@ var app = {
         }
     },
 
-    fetchMe: function() {
+    fetchMe: function()
+    {
+        var txt="";
+        try
+        {
         var url='http://192.168.0.8:22005/v1/me.xml';
-        //var url='http://192.168.0.8:22005/time.xml';
+        var basicAuth;
 
         var oReq = new XMLHttpRequest();
         oReq.addEventListener("progress", updateProgress, false);
@@ -64,14 +101,21 @@ var app = {
         oReq.addEventListener("loadend", loadEnd, false);
 
         oReq.onload = reqMeListener;
-        oReq.open("get", url, true, "PaulRead", "PaulRead");
-//            invocation.setRequestHeader('Content-Type',
-//'application/xml');
-//                request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-        //oReq.withCreditionals=true;
-//xmlhttp.setRequestHeader "Authorization", "Basic dXNlcm5hbWU6cGFzc3dvcmQ="
+        oReq.open("get", url, true);
 
-        oReq.send();
+      basicAuth = "Basic " + Base64.encode("PaulRead:PaulRead",Base64.NO_WRAP );
+      oReq.setRequestHeader("Authorization", basicAuth);
+        //oReq.withCreditionals=true;
+
+        oReq.send("");
+    }
+    catch(err)
+    {
+          txt="There was an error on this page.\n\n";
+  txt+="Error description: " + err.message + "\n\n";
+  txt+="Click OK to continue.\n\n";
+  alert(txt);
+    }
     },
 
     initialize: function() {
